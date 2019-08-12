@@ -116,7 +116,6 @@ initialElement.style.height = "50%";
 initialElement.style.paddingTop = "5%";
 initialElement.style.display = "flex";
 initialElement.style.justifyContent = "center";
-initialElement.style.backgroundColor = "lightblue";
 mirroredElement.style.height = "44%"
 mirroredElement.style.display = "flex";
 mirroredElement.style.justifyContent = "center";
@@ -137,22 +136,98 @@ mirroredElement.addEventListener("click", function() {
 // Return # of boxes shaded
 let gridNum = 96;
 let gridContainer = document.createElement("div")
+let amountSelectedDiv = document.createElement("div")
+let amountSelectedText = document.createElement("h3")
+let resetButton = document.createElement("button")
 columnTwo.appendChild(gridContainer)
 let unitArr = [];
+let selectedArr = []
+let amountSelected = 0;
 
 for(let i = 0; i < gridNum; i++) {
     let gridUnit = document.createElement("div")
     gridContainer.appendChild(gridUnit)
-    gridUnit.style.border = "1px lightblue solid"
-    gridUnit.style.width = "5%"
-    gridUnit.style.height = "7%"
-    gridUnit.style.margin = "0%"
+    unitArr.push(gridUnit)
+    unitArr[i].setAttribute("id", [i])
+    gridUnit.style.border = "1px black solid"
+    gridUnit.style.width = "7%"
+    gridUnit.style.height = "10%"
     gridUnit.style.alignSelf = "center"
+
+    gridUnit.addEventListener("click", function() {
+        unitArr[i].style.background = "black";
+        // FIX THIS
+        if(selectedArr[i] !== unitArr[i]) {
+            selectedArr.push(unitArr[i]);
+            amountSelected = selectedArr.length;
+            amountSelectedText.innerHTML = + amountSelected + " units selected"
+        }
+    })
+
+    resetButton.addEventListener("click", function() {
+        selectedArr = [];
+        unitArr[i].style.backgroundColor = "";
+        amountSelected = selectedArr.length;
+        amountSelectedText.innerHTML = + amountSelected + " units selected"
+    })
 }
 
-gridContainer.style.height = "40%"
-gridContainer.style.width = "60%"
-gridContainer.style.border = "solid black 2px"
-gridContainer.style.display = "flex"
-gridContainer.style.justifyContent = "center"
-gridContainer.style.flexWrap = "wrap"
+amountSelectedText.innerHTML = + amountSelected + " units selected";
+resetButton.innerText = "Reset"
+amountSelectedDiv.appendChild(resetButton)
+amountSelectedDiv.appendChild(amountSelectedText);
+columnTwo.appendChild(amountSelectedDiv);
+
+resetButton.style.height = "50%"
+resetButton.style.marginRight = "5%"
+amountSelectedDiv.style.display = "flex"
+amountSelectedDiv.style.flexDirection = "row"
+amountSelectedDiv.style.alignItems = "center"
+amountSelectedDiv.style.justifyContent = "center"
+amountSelectedDiv.style.width = "80%"
+gridContainer.style.height = "35%";
+gridContainer.style.width = "58%";
+gridContainer.style.display = "flex";
+gridContainer.style.justifyContent = "center";
+gridContainer.style.flexWrap = "wrap";
+
+
+// Grid that changes when you hover over certain parts
+let gridNum2 = 96;
+let gridContainer2 = document.createElement("div")
+columnTwo.appendChild(gridContainer2)
+let unitArr2 = [];
+let selectedArr2 = []
+let amountSelected2 = 0;
+
+for(let i = 0; i < gridNum2; i++) {
+    let dynamicGridUnit = document.createElement("div")
+    gridContainer2.appendChild(dynamicGridUnit)
+    unitArr2.push(dynamicGridUnit)
+    unitArr2[i].setAttribute("id", [i])
+    dynamicGridUnit.style.border = "1px black solid"
+    dynamicGridUnit.style.width = "7%"
+    dynamicGridUnit.style.height = "10%"
+    dynamicGridUnit.style.alignSelf = "center"
+
+    dynamicGridUnit.addEventListener("mouseover", function() {
+        dynamicGridUnit.style.boxShadow = "inset 0 0 9px black"
+        dynamicGridUnit.style.borderRadius = "10px"
+        dynamicGridUnit.style.backgroundColor = "lightblue"
+    })
+
+    dynamicGridUnit.addEventListener("mouseout", function() {
+        dynamicGridUnit.style.margin = "0"
+        dynamicGridUnit.style.boxShadow = "inset 0 0 0px white"
+        setTimeout(function() {
+            dynamicGridUnit.style.borderRadius = "0px"
+            dynamicGridUnit.style.backgroundColor = "white"
+        }, 1500)
+    })
+}
+
+gridContainer2.style.height = "35%";
+gridContainer2.style.width = "58%";
+gridContainer2.style.display = "flex";
+gridContainer2.style.justifyContent = "center";
+gridContainer2.style.flexWrap = "wrap";
